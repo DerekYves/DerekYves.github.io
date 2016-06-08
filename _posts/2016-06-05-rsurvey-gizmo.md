@@ -22,29 +22,28 @@ Over the years SurveyGizmo has greatly expanded the kinds of user customization 
 that is possible, particularly [in the area of API calls](https://apihelp.surveygizmo.com/help).
 Because we mostly work in R, I decided to write a package that accesses the 
 SurveyGizmo API directly so that survey and email campaign data can 
-be pulled directly with a project script 
-(as opposed to manually downloading the data from the webpage).
+be pulled directly within a project script (as opposed to manually downloading the data from the webpage).
 
 Some usage examples for this package follow. To really test it out you will need to supply
-your private SurveyGizmo API key and a valid survey id. There are many more function options 
+your private SurveyGizmo API key and a valid numeric survey id. There are many more function options 
 outlined in the package help files than are presented below for those who'd like to learn more.
 
 
 
 {% highlight r %}
 ## Download a "regular" survey (that is, with no email campaign data), keeping only complete responses:
-api <- "1234_yourapikeyhere_567"
-a_survey <- pullsg(1234, api, completes_only=T)
+api <- "your_api_key_here"
+a_survey <- pullsg(your_survey_id_here, api, completes_only=T)
 
 ## Download all email campaign data for a particular survey:
-a_campaign <- pullsg_campaign(surveyid, api) 
+a_campaign <- pullsg_campaign(your_survey_id_here, api) 
 
 ## Combine the previous steps in one function, that is, download email campaign 
 ## data and merge it, where possible, with the survey response object (this will
 ## only work, of course, when there are valid email campaigns associated with a 
 ## survey project).
 
-a_survey <- pullsg(1234, api, mergecampaign=T)
+a_survey_with_campaign <- pullsg(your_survey_id_here, api, mergecampaign=T)
 {% endhighlight %}
 
 If you'd like to give the package a spin you can [visit the Github repository](https://github.com/DerekYves/rsurveygizmo) or install directly within R:
@@ -55,5 +54,5 @@ library(devtools)
 install_github(repo="DerekYves/rsurveygizmo")
 {% endhighlight %}
      
-I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to [Ari Lamstein](http://www.arilamstein.com/) for teahing me the ropes of R package development and the wonders roxygen.
+I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to [Ari Lamstein](http://www.arilamstein.com/) for teahing me the ropes of R package development and the wonders of Roxygen.
 

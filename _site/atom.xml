@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>R from<br>Stata</title>
- <link href="http://derekyves.github.io//blogratom.xml" rel="self"/>
- <link href="http://derekyves.github.io//blogr"/>
- <updated>2016-06-08T13:56:39-04:00</updated>
+ <link href="http://derekyves.github.io//DerekYves.github.ioatom.xml" rel="self"/>
+ <link href="http://derekyves.github.io//DerekYves.github.io"/>
+ <updated>2016-06-08T14:39:31-04:00</updated>
  <id>http://derekyves.github.io</id>
  <author>
    <name>Derek Darves</name>
@@ -23,33 +23,32 @@ Over the years SurveyGizmo has greatly expanded the kinds of user customization 
 that is possible, particularly &lt;a href=&quot;https://apihelp.surveygizmo.com/help&quot;&gt;in the area of API calls&lt;/a&gt;.
 Because we mostly work in R, I decided to write a package that accesses the 
 SurveyGizmo API directly so that survey and email campaign data can 
-be pulled directly with a project script 
-(as opposed to manually downloading the data from the webpage).&lt;/p&gt;
+be pulled directly within a project script (as opposed to manually downloading the data from the webpage).&lt;/p&gt;
 
 &lt;p&gt;Some usage examples for this package follow. To really test it out you will need to supply
-your private SurveyGizmo API key and a valid survey id. There are many more function options 
+your private SurveyGizmo API key and a valid numeric survey id. There are many more function options 
 outlined in the package help files than are presented below for those who’d like to learn more.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;c1&quot;&gt;## Download a &quot;regular&quot; survey (that is, with no email campaign data), keeping only complete responses:
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;api&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;1234_yourapikeyhere_567&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;a_survey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pullsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1234&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completes_only&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;api&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;your_api_key_here&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;a_survey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pullsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;your_survey_id_here&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completes_only&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;## Download all email campaign data for a particular survey:
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a_campaign&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pullsg_campaign&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;surveyid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a_campaign&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pullsg_campaign&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;your_survey_id_here&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
 
 &lt;span class=&quot;c1&quot;&gt;## Combine the previous steps in one function, that is, download email campaign 
 ## data and merge it, where possible, with the survey response object (this will
 ## only work, of course, when there are valid email campaigns associated with a 
 ## survey project).
 &lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;a_survey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pullsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1234&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mergecampaign&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;n&quot;&gt;a_survey_with_campaign&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pullsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;your_survey_id_here&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mergecampaign&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;If you’d like to give the package a spin you can &lt;a href=&quot;https://github.com/DerekYves/rsurveygizmo&quot;&gt;visit the Github repository&lt;/a&gt; or install directly within R:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span class=&quot;n&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;devtools&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;install_github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;DerekYves/rsurveygizmo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to &lt;a href=&quot;http://www.arilamstein.com/&quot;&gt;Ari Lamstein&lt;/a&gt; for teahing me the ropes of R package development and the wonders roxygen.&lt;/p&gt;
+&lt;p&gt;I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to &lt;a href=&quot;http://www.arilamstein.com/&quot;&gt;Ari Lamstein&lt;/a&gt; for teahing me the ropes of R package development and the wonders of Roxygen.&lt;/p&gt;
 
 </content>
  </entry>

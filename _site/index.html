@@ -16,15 +16,15 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/blogr/public/css/poole.css">
-  <link rel="stylesheet" href="/blogr/public/css/syntax.css">
-  <link rel="stylesheet" href="/blogr/public/css/hyde.css">
-  <link rel="stylesheet" href="/blogr/public/css/custom.css">
+  <link rel="stylesheet" href="/DerekYves.github.io/public/css/poole.css">
+  <link rel="stylesheet" href="/DerekYves.github.io/public/css/syntax.css">
+  <link rel="stylesheet" href="/DerekYves.github.io/public/css/hyde.css">
+  <link rel="stylesheet" href="/DerekYves.github.io/public/css/custom.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/blogrpublic/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/blogrpublic/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/DerekYves.github.iopublic/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/DerekYves.github.iopublic/favicon.ico">
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
@@ -50,10 +50,10 @@
 <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-    <img src="/blogr/images/dd.png">
+    <img src="/DerekYves.github.io/images/dd.png">
 
       <h1>
-        <a href="/blogr">
+        <a href="/DerekYves.github.io">
           R from<br>Stata
         </a>
       </h1>
@@ -61,7 +61,7 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a class="sidebar-nav-item" href="/blogr">Home</a>
+      <a class="sidebar-nav-item" href="/DerekYves.github.io">Home</a>
 
 	
 
@@ -83,13 +83,13 @@
 	
 	  
 		
-		  <a class="sidebar-nav-item" href="/blogr/about.html">About</a>
+		  <a class="sidebar-nav-item" href="/DerekYves.github.io/about.html">About</a>
 		
 	  
 	
 	  
 		
-		  <a class="sidebar-nav-item" href="/blogr/archive.html">Archives</a>
+		  <a class="sidebar-nav-item" href="/DerekYves.github.io/archive.html">Archives</a>
 		
 	  
 	
@@ -97,7 +97,7 @@
 	
 	  
 		
-		  <a class="sidebar-nav-item" href="/blogr/categories.html">Categories</a>
+		  <a class="sidebar-nav-item" href="/DerekYves.github.io/categories.html">Categories</a>
 		
 	  
 	
@@ -144,12 +144,12 @@
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/blogr//2016/06/06/rsurvey-gizmo.html">
+      <a href="/DerekYves.github.io//2016/06/06/rsurvey-gizmo.html">
         Rsurveygizmo: An R package for interacting with the Survey Gizmo API
       </a>
     </h1>
     
-<a href="/blogr/2016/06/06/rsurvey-gizmo.html#disqus_thread"
+<a href="/DerekYves.github.io/2016/06/06/rsurvey-gizmo.html#disqus_thread"
     class = "commentcount"></a>
     
     <span class="post-date">06 Jun 2016</span>
@@ -160,45 +160,44 @@ Over the years SurveyGizmo has greatly expanded the kinds of user customization 
 that is possible, particularly <a href="https://apihelp.surveygizmo.com/help">in the area of API calls</a>.
 Because we mostly work in R, I decided to write a package that accesses the 
 SurveyGizmo API directly so that survey and email campaign data can 
-be pulled directly with a project script 
-(as opposed to manually downloading the data from the webpage).</p>
+be pulled directly within a project script (as opposed to manually downloading the data from the webpage).</p>
 
 <p>Some usage examples for this package follow. To really test it out you will need to supply
-your private SurveyGizmo API key and a valid survey id. There are many more function options 
+your private SurveyGizmo API key and a valid numeric survey id. There are many more function options 
 outlined in the package help files than are presented below for those who’d like to learn more.</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Download a "regular" survey (that is, with no email campaign data), keeping only complete responses:
-</span><span class="n">api</span> <span class="o">&lt;-</span> <span class="s2">"1234_yourapikeyhere_567"</span>
-<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="m">1234</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">completes_only</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+</span><span class="n">api</span> <span class="o">&lt;-</span> <span class="s2">"your_api_key_here"</span>
+<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">completes_only</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
 
 <span class="c1">## Download all email campaign data for a particular survey:
-</span><span class="n">a_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">surveyid</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span> 
+</span><span class="n">a_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span> 
 
 <span class="c1">## Combine the previous steps in one function, that is, download email campaign 
 ## data and merge it, where possible, with the survey response object (this will
 ## only work, of course, when there are valid email campaigns associated with a 
 ## survey project).
 </span>
-<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="m">1234</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">mergecampaign</span><span class="o">=</span><span class="n">T</span><span class="p">)</span></code></pre></figure>
+<span class="n">a_survey_with_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">mergecampaign</span><span class="o">=</span><span class="n">T</span><span class="p">)</span></code></pre></figure>
 
 <p>If you’d like to give the package a spin you can <a href="https://github.com/DerekYves/rsurveygizmo">visit the Github repository</a> or install directly within R:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span>
 <span class="n">install_github</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"DerekYves/rsurveygizmo"</span><span class="p">)</span></code></pre></figure>
 
-<p>I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to <a href="http://www.arilamstein.com/">Ari Lamstein</a> for teahing me the ropes of R package development and the wonders roxygen.</p>
+<p>I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to <a href="http://www.arilamstein.com/">Ari Lamstein</a> for teahing me the ropes of R package development and the wonders of Roxygen.</p>
 
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/blogr//2016/05/10/codeshare.html">
+      <a href="/DerekYves.github.io//2016/05/10/codeshare.html">
         Sharing R code in a workgroup of Mac/Windows/Linux users
       </a>
     </h1>
     
-<a href="/blogr/2016/05/10/codeshare.html#disqus_thread"
+<a href="/DerekYves.github.io/2016/05/10/codeshare.html#disqus_thread"
     class = "commentcount"></a>
     
     <span class="post-date">10 May 2016</span>
