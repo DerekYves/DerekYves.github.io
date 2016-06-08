@@ -1,0 +1,49 @@
+# Dependencies
+markdown:         kramdown
+kramdown:
+  syntax-highlighter:  rouge
+
+# Permalinks
+permalink: /:year/:month/:day/:title.html
+#relative_permalinks: true
+
+# Setup
+title:  R from<br>Stata
+email: darves[at]gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+    The goal of this blog is to help people who are making the transition from STATA to R (or, at least, trying to supplement their STATA skills with R).
+
+tagline:          ''
+description:      'The Personal Blog<br>of Derek Darves'
+baseurl: "/blogr" # If you are making a gh-pages project blog, this is
+                        # the name of your project repo, preceded by a /'
+                        # Set it to just "/" if you are making a user page.
+                        
+baseurlknitr:  "/blogr/" # This will always be your baseurl plus and extra '/'
+                                # at the end.  It's used only when knitr renders
+                                # your R Markdown files.
+                        
+url: "http://derekyves.github.io" # the base hostname & protocol for your site
+
+# set limit on number of post to appear on Home page
+homepostlimit: 4
+
+# Disqus comments:
+disqus:           true
+shortname:        rfromstata
+
+twitter_username: dyd78
+github_username:  DerekYves
+linkedin_username: derek-darves-681a93a7
+
+
+# Social Media
+twitter:          true # add a twitter button to each post
+facebook:         true # add a facebook share button to each post
+
+author:
+  name:           'Derek Darves'
+  url:            http://derekyves.github.io
+
+github:
+  repo:           https://github.com/DerekYves/blog

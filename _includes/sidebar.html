@@ -1,0 +1,63 @@
+
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+    <img src="{{ site.baseurl }}/images/dd.png">
+
+      <h1>
+        <a href="{{ site.baseurl }}">
+          {{ site.title }}
+        </a>
+      </h1>
+      <p class="lead">{{ site.description }}</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item{% if page.url == '/index.html' %} active{% endif %}" href="{{ site.baseurl }}">Home</a>
+
+	{% comment %}
+	  The code below dynamically generates a sidebar nav of pages with
+	  `layout: page` in the front-matter. See readme for usage.
+	{% endcomment %}
+
+	{% assign pages_list = site.pages %}
+	{% for node in pages_list %}
+	  {% if node.title != null %}
+		{% if node.layout == "page" %}
+		  <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ site.baseurl }}{{ node.url }}.html">{{ node.title }}</a>
+		{% endif %}
+	  {% endif %}
+	{% endfor %}
+<hr>
+<p class="lead">Connect:</p>
+
+	{% if site.github_username %}
+		  <li><a href="https://github.com/{{ site.github_username }}">
+		  <i class="fa fa-github"></i>   GitHub
+		  </a>  </li>
+	{% endif %}
+	{% if site.twitter_username %}
+		  <li><a href="https://twitter.com/{{ site.twitter_username }}">
+		  <i class="fa fa-twitter"></i> Twitter
+		  </a>  </li>
+	{% endif %}      
+	{% if site.linkedin_username %}
+		  <li><a href="https://linkedin.com/in/{{ site.linkedin_username }}">
+		  <i class="fa fa-linkedin"></i>   LinkedIn
+		  </a>  </li>
+	{% endif %}
+	{% if site.email %}
+	<li><a href="mailto:{{ site.email}}?Subject=Blog Question (be sure to correct the email address before sending)" target="_top">
+		  <i class="fa fa-envelope"></i> Email
+		  </a>  </li>
+	{% endif %}	
+	
+<hr>
+<p class="lead">Blogroll:</p>
+      <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
+      <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
+      <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+    </nav>
+  </div>
+</div>
