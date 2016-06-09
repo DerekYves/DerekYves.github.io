@@ -168,15 +168,17 @@ pre {
   line-height: 1.4;
   white-space: pre;
   white-space: pre-wrap;
-  word-break: break-all;
-  word-wrap: break-word;
+/*  word-break: break-all;
+  word-wrap: break-word; */ 
   background-color: #f9f9f9;
+  overflow: auto;
 }
 pre code {
   padding: 0;
   font-size: 100%;
   color: inherit;
   background-color: transparent;
+
 }
 
 /* Pygments via Jekyll */
@@ -331,6 +333,8 @@ tbody tr:nth-child(odd) th {
 .page,
 .post {
   margin-bottom: 4em;
+  width: 1000px;
+
 }
 
 /* Blog post or page title */
