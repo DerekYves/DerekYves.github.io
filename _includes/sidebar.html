@@ -2,14 +2,14 @@
 <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-    <img src="{{ site.baseurl }}/images/dd.png">
          <h1>
         <a href="{{ site.baseurl }}">
           {{ site.title }}
         </a>
       </h1>
+      <p> {{ site.description }} </p>
     </div>
-
+	<br>
     <nav class="sidebar-nav">
 	{% comment %}
 	  The code below dynamically generates a sidebar nav of pages with
@@ -46,10 +46,12 @@
 		  <i class="fa fa-envelope"></i> Email
 		  </a>  </li>
 	{% endif %}	
+	<br>
 <p class="lead">Blogroll:</p>
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+	<br>	<br>      <img src="{{ site.baseurl }}/images/dd.png">
     </nav>
 </div>
 </div>

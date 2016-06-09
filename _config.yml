@@ -8,7 +8,7 @@ permalink: /:year/:month/:day/:title.html
 #relative_permalinks: true
 
 # Setup
-title:  R from<br>Stata
+title:  R from Stata
 email: darves[at]gmail.com
 description: > # this means to ignore newlines until "baseurl:"
     The goal of this blog is to help people who are making the transition from STATA to R (or, at least, trying to supplement their STATA skills with R).
