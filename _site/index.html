@@ -160,19 +160,18 @@ be pulled directly within a project script (as opposed to manually downloading t
 your private SurveyGizmo API key and a valid numeric survey id. There are many more function options 
 outlined in the package help files than are presented below for those who’d like to learn more.</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Download a "regular" survey (that is, with no email campaign data), keeping only complete responses:
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Download a "regular" survey with no email campaign data,
+# keeping only complete responses:
 </span><span class="n">api</span> <span class="o">&lt;-</span> <span class="s2">"your_api_key_here"</span>
-<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">completes_only</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">completes_only</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> 
 
-<span class="c1">## Download all email campaign data for a particular survey:
+<span class="c1"># Download all email campaign data for a particular survey:
 </span><span class="n">a_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span> 
 
-<span class="c1">## Combine the previous steps in one function, that is, download email campaign 
-## data and merge it, where possible, with the survey response object (this will
-## only work, of course, when there are valid email campaigns associated with a 
-## survey project).
-</span>
-<span class="n">a_survey_with_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">mergecampaign</span><span class="o">=</span><span class="n">T</span><span class="p">)</span></code></pre></figure>
+<span class="c1"># Combine the previous steps in one function:
+# 1. download email campaign 
+# 2. merge it, where possible, with a survey response 
+</span><span class="n">a_survey_with_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">mergecampaign</span><span class="o">=</span><span class="n">T</span><span class="p">)</span></code></pre></figure>
 
 <p>If you’d like to give the package a spin you can <a href="https://github.com/DerekYves/rsurveygizmo">visit the Github repository</a> or install directly within R:</p>
 

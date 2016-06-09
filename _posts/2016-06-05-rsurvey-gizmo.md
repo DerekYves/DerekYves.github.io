@@ -31,18 +31,17 @@ outlined in the package help files than are presented below for those who'd like
 
 
 {% highlight r %}
-## Download a "regular" survey (that is, with no email campaign data), keeping only complete responses:
+# Download a "regular" survey with no email campaign data,
+# keeping only complete responses:
 api <- "your_api_key_here"
-a_survey <- pullsg(your_survey_id_here, api, completes_only=T)
+a_survey <- pullsg(your_survey_id_here, api, completes_only=T) 
 
-## Download all email campaign data for a particular survey:
+# Download all email campaign data for a particular survey:
 a_campaign <- pullsg_campaign(your_survey_id_here, api) 
 
-## Combine the previous steps in one function, that is, download email campaign 
-## data and merge it, where possible, with the survey response object (this will
-## only work, of course, when there are valid email campaigns associated with a 
-## survey project).
-
+# Combine the previous steps in one function:
+# 1. download email campaign 
+# 2. merge it, where possible, with a survey response 
 a_survey_with_campaign <- pullsg(your_survey_id_here, api, mergecampaign=T)
 {% endhighlight %}
 

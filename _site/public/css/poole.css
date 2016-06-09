@@ -333,7 +333,7 @@ tbody tr:nth-child(odd) th {
 .page,
 .post {
   margin-bottom: 4em;
-  width: 1000px;
+  max-width: 1000px;
 
 }
 
