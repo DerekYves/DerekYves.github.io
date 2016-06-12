@@ -15,8 +15,9 @@ layout: null
    <email>{{ site.author.email }}</email>
  </author>
 
+
  {% for post in site.posts %}
- {% if post.categories contains 'testtt' %}
+ {% if site.categories contains 'testtt' %}
  <entry>
    <title>{{ post.title }}</title>
    <link href="{{ site.url }}{{ site.baseurlstrip }}{{ post.url }}"/>
