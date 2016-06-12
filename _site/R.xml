@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>R from Stata</title>
- <link href="http://derekyves.github.io/R.xml" rel="self"/>
- <link href="http://derekyves.github.io/"/>
- <updated>2016-06-12T19:28:44-04:00</updated>
+ <link href="/R.xml" rel="self"/>
+ <link href="/"/>
+ <updated>2016-06-12T19:57:51-04:00</updated>
  <id>http://derekyves.github.io</id>
  <author>
    <name>Derek Darves</name>
@@ -14,7 +14,7 @@
  
  <entry>
    <title>Rsurveygizmo: An R package for interacting with the Survey Gizmo API</title>
-   <link href="http://derekyves.github.io/2016/06/06/rsurvey-gizmo.html"/>
+   <link href="/2016/06/06/rsurvey-gizmo.html"/>
    <updated>2016-06-06T16:00:00-04:00</updated>
    <id>http://derekyves.github.io/2016/06/06/rsurvey-gizmo</id>
    <content type="html">&lt;p&gt;Several years ago our team began using SurveyGizmo for our online surveys (and, actually, a bunch of other projects as well, from polls to data entry templates). At the time, SurveyGizmo provided 
@@ -54,7 +54,7 @@ outlined in the package help files than are presented below for those who’d li
  
  <entry>
    <title>Sharing R code in a workgroup of Mac/Windows/Linux users</title>
-   <link href="http://derekyves.github.io/2016/05/10/codeshare.html"/>
+   <link href="/2016/05/10/codeshare.html"/>
    <updated>2016-05-10T16:00:00-04:00</updated>
    <id>http://derekyves.github.io/2016/05/10/codeshare</id>
    <content type="html">&lt;p&gt;In recent years there’s been a great deal of interest in, and work toward, creating more “reproducible” statistical code. I think this is a fantastic development. Looking at code I wrote in the late 90’s and early oughts, it’s clear how much a lot of my work from that period would have benefited from the coding habits I’ve developed over the last five or so years.&lt;/p&gt;

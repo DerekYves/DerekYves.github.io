@@ -4,6 +4,7 @@ kramdown:
   syntax-highlighter:  rouge
 
 # Permalinks
+# permalink: /:year/:month/:day/:title.html
 permalink: /:year/:month/:day/:title.html
 #relative_permalinks: true
 
@@ -15,7 +16,7 @@ description: > # this means to ignore newlines until "baseurl:"
     from STATA to R (or, at least, trying to supplement their STATA skills with R).
 
 tagline:          ''
-description:      'The Personal Blog of Derek Darves'
+description:      'The Personal Blog <br>of Derek Darves'
 baseurl: "" # If you are making a gh-pages project blog, this is
                         # the name of your project repo, preceded by a /'
                         # Set it to just "/" if you are making a user page.
