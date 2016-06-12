@@ -16,6 +16,7 @@ layout: null
  </author>
 
  {% for post in site.posts %}
+ {% if post.categories contains 'R' %}
  <entry>
    <title>{{ post.title }}</title>
    <link href="{{ site.url }}{{ site.baseurlstrip }}{{ post.url }}"/>
