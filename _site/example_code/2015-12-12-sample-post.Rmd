@@ -16,15 +16,15 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/DerekYves.github.io/public/css/poole.css">
-  <link rel="stylesheet" href="/DerekYves.github.io/public/css/syntax.css">
-  <link rel="stylesheet" href="/DerekYves.github.io/public/css/hyde.css">
-  <link rel="stylesheet" href="/DerekYves.github.io/public/css/custom.css">
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/custom.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/DerekYves.github.iopublic/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="/DerekYves.github.iopublic/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="public/favicon.ico">
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
@@ -49,14 +49,14 @@
 <div class="sidebar">
      <!-- not used:<div class="container sidebar-sticky"> -->
    <div class="sidebar-about">
-   <center><img src="/DerekYves.github.io/images/dd.png"></center>
+   <center><img src="/images/dd.png"></center>
 
          <h1>
-        <a href="/DerekYves.github.io">
+        <a href="">
           R from Stata
         </a>
       </h1>
-      <p> The Personal Blog<br>of Derek Darves </p>
+      <p> The Personal Blog of Derek Darves </p>
     </div>
 	<br>
     <nav class="sidebar-nav">
@@ -80,13 +80,13 @@
 	
 	  
 		
-		  <a class="sidebar-nav-item" href="/DerekYves.github.io/about.html">About</a>
+		  <a class="sidebar-nav-item" href="/about.html">About</a>
 		
 	  
 	
 	  
 		
-		  <a class="sidebar-nav-item" href="/DerekYves.github.io/archive.html">Archives</a>
+		  <a class="sidebar-nav-item" href="/archive.html">Archives</a>
 		
 	  
 	
@@ -94,7 +94,7 @@
 	
 	  
 		
-		  <a class="sidebar-nav-item" href="/DerekYves.github.io/categories.html">Categories</a>
+		  <a class="sidebar-nav-item" href="/categories.html">Categories</a>
 		
 	  
 	
@@ -124,7 +124,7 @@
 		  <i class="fa fa-envelope"></i> Email
 		  </a>  </li>
 		
-		<li><a href="/DerekYves.github.io/atom.xml" target="_top">
+		<li><a href="/atom.xml" target="_top">
 		  <i class="fa fa-rss" aria-hidden="true"></i> RSS
 		  </a>  </li>
 	<br>
@@ -216,7 +216,7 @@ Happy blogging.
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<div class="fb-share-button" data-href="http://derekyves.github.io/DerekYves.github.io" data-layout="button_count"></div>
+<div class="fb-share-button" data-href="http://derekyves.github.io" data-layout="button_count"></div>
 
 
 

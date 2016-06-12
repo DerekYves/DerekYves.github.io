@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>R from Stata</title>
- <link href="http://derekyves.github.io//DerekYves.github.ioR.xml" rel="self"/>
- <link href="http://derekyves.github.io//DerekYves.github.io"/>
- <updated>2016-06-12T17:35:47-04:00</updated>
+ <link href="http://derekyves.github.io/R.xml" rel="self"/>
+ <link href="http://derekyves.github.io/"/>
+ <updated>2016-06-12T19:28:44-04:00</updated>
  <id>http://derekyves.github.io</id>
  <author>
    <name>Derek Darves</name>

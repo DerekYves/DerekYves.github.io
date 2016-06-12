@@ -11,15 +11,16 @@ permalink: /:year/:month/:day/:title.html
 title:  R from Stata
 email: darves[at]gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-    The goal of this blog is to help people who are making the transition from STATA to R (or, at least, trying to supplement their STATA skills with R).
+    The goal of this blog is to help people who are making the transition 
+    from STATA to R (or, at least, trying to supplement their STATA skills with R).
 
 tagline:          ''
-description:      'The Personal Blog<br>of Derek Darves'
-baseurl: "/DerekYves.github.io" # If you are making a gh-pages project blog, this is
+description:      'The Personal Blog of Derek Darves'
+baseurl: "" # If you are making a gh-pages project blog, this is
                         # the name of your project repo, preceded by a /'
                         # Set it to just "/" if you are making a user page.
                         
-baseurlknitr:  "/DerekYves.github.io/" # This will always be your baseurl plus and extra '/'
+baseurlknitr:  "/" # This will always be your baseurl plus and extra '/'
                                 # at the end.  It's used only when knitr renders
                                 # your R Markdown files.
                         
