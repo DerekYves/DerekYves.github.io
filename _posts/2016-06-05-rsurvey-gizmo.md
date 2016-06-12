@@ -5,7 +5,7 @@ comments:  true
 published:  true
 author: "Derek Darves"
 date: 2016-06-06 20:00:00
-categories: ['Survey Gizmo']
+categories: [R, 'Survey Gizmo']
 output:
   html_document:
     mathjax:  default
