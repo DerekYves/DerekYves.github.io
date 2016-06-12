@@ -16,8 +16,8 @@ layout: null
  </author>
 
 
- {% for post in site.posts %}
- {% if site.categories contains 'R' %}
+{% for post in site.posts %}
+{% if site.categories contains 'R' %}
  <entry>
    <title>{{ post.title }}</title>
    <link href="{{ site.url }}{{ site.baseurlstrip }}{{ post.url }}"/>
@@ -25,7 +25,7 @@ layout: null
    <id>{{ site.url }}{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
- {% endif %}
- {% endfor %}
+{% endif %}
+{% endfor %}
 
 </feed>

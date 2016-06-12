@@ -5,7 +5,7 @@ comments:  true
 published:  true
 author: "Derek Darves"
 date: 2016-05-10 20:00:00
-categories: [R]
+categories: [test]
 output:
   html_document:
     mathjax:  default

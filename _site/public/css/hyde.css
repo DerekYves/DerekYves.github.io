@@ -58,7 +58,20 @@ html {
   padding: 2rem 1rem;
   color: rgba(255,255,255,.5);
   background-color: #202020;
+  overflow: hidden;
 }
+@media (min-width: 48em) {
+  .sidebar:hover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 16.75rem;
+    text-align: left;
+    overflow-y: scroll;
+  }
+}
+
 @media (min-width: 48em) {
   .sidebar {
     position: fixed;
@@ -67,8 +80,10 @@ html {
     bottom: 0;
     width: 16rem;
     text-align: left;
+    overflow: hidden;
   }
 }
+
 
 /* Sidebar links */
 .sidebar a {

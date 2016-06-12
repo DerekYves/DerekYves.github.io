@@ -45,10 +45,12 @@
 
   <body class="theme-base-0g">
 
-    
+    </style>
 <div class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
+     <!-- not used:<div class="container sidebar-sticky"> -->
+   <div class="sidebar-about">
+   <center><img src="/DerekYves.github.io/images/dd.png"></center>
+
          <h1>
         <a href="/DerekYves.github.io">
           R from Stata
@@ -103,33 +105,35 @@
 <hr>
 <p class="lead">Connect:</p>
 	
-		  <li><a href="https://github.com/DerekYves">
+		<li><a href="https://github.com/DerekYves">
 		  <i class="fa fa-github"></i>   GitHub
 		  </a>  </li>
 	
 	
-		  <li><a href="https://twitter.com/dyd78">
+		<li><a href="https://twitter.com/dyd78">
 		  <i class="fa fa-twitter"></i> Twitter
 		  </a>  </li>
 	      
 	
-		  <li><a href="https://linkedin.com/in/derek-darves-681a93a7">
+		<li><a href="https://linkedin.com/in/derek-darves-681a93a7">
 		  <i class="fa fa-linkedin"></i>   LinkedIn
 		  </a>  </li>
 	
 	
-	<li><a href="mailto:darves[at]gmail.com?Subject=Blog Question (be sure to correct the email address before sending)" target="_top">
+		<li><a href="mailto:darves[at]gmail.com?Subject=Blog Question (be sure to correct the email address before sending)" target="_top">
 		  <i class="fa fa-envelope"></i> Email
 		  </a>  </li>
 		
+		<li><a href="/DerekYves.github.io/atom.xml" target="_top">
+		  <i class="fa fa-rss" aria-hidden="true"></i> RSS
+		  </a>  </li>
 	<br>
 <p class="lead">Blogroll:</p>
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
-	<br>	<br>    <center><img src="/DerekYves.github.io/images/dd.png"></center>
     </nav>
-</div>
+<!-- not used:</div> -->
 </div>
 
 

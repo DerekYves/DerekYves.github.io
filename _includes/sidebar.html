@@ -1,7 +1,9 @@
-
+</style>
 <div class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
+     <!-- not used:<div class="container sidebar-sticky"> -->
+   <div class="sidebar-about">
+   <center><img src="{{ site.baseurl }}/images/dd.png"></center>
+
          <h1>
         <a href="{{ site.baseurl }}">
           {{ site.title }}
@@ -27,31 +29,33 @@
 <hr>
 <p class="lead">Connect:</p>
 	{% if site.github_username %}
-		  <li><a href="https://github.com/{{ site.github_username }}">
+		<li><a href="https://github.com/{{ site.github_username }}">
 		  <i class="fa fa-github"></i>   GitHub
 		  </a>  </li>
 	{% endif %}
 	{% if site.twitter_username %}
-		  <li><a href="https://twitter.com/{{ site.twitter_username }}">
+		<li><a href="https://twitter.com/{{ site.twitter_username }}">
 		  <i class="fa fa-twitter"></i> Twitter
 		  </a>  </li>
 	{% endif %}      
 	{% if site.linkedin_username %}
-		  <li><a href="https://linkedin.com/in/{{ site.linkedin_username }}">
+		<li><a href="https://linkedin.com/in/{{ site.linkedin_username }}">
 		  <i class="fa fa-linkedin"></i>   LinkedIn
 		  </a>  </li>
 	{% endif %}
 	{% if site.email %}
-	<li><a href="mailto:{{ site.email}}?Subject=Blog Question (be sure to correct the email address before sending)" target="_top">
+		<li><a href="mailto:{{ site.email}}?Subject=Blog Question (be sure to correct the email address before sending)" target="_top">
 		  <i class="fa fa-envelope"></i> Email
 		  </a>  </li>
 	{% endif %}	
+		<li><a href="{{ site.baseurl }}/atom.xml" target="_top">
+		  <i class="fa fa-rss" aria-hidden="true"></i> RSS
+		  </a>  </li>
 	<br>
 <p class="lead">Blogroll:</p>
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
-	<br>	<br>    <center><img src="{{ site.baseurl }}/images/dd.png"></center>
     </nav>
-</div>
+<!-- not used:</div> -->
 </div>

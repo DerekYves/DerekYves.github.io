@@ -17,3 +17,5 @@ many years ago, auto repair. For fun I enjoy bicycle touring, running, and, of c
 This fall my coauthored book [Agents of Neoliberal Globalization](https://books.google.com/books/about/Agents_of_Neoliberal_Globalization.html?id=kc5urgEACAAJ) is coming out with [Cambridge University Press](http://www.cambridge.org). 
 
 Many thank's to [Homer White](https://statistics.rainandrhino.org) for his excellent [knitr-hyde](https://github.com/homerhanumat/knitr-hyde) instructions and template, which form the basis of this site.
+
+<center><img src="{{ site.baseurl }}/images/dd.png"></center>
