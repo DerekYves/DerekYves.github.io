@@ -17,7 +17,7 @@ layout: null
 
 
  {% for post in site.posts %}
- {% if site.categories contains 'testtt' %}
+ {% if site.categories contains 'R' %}
  <entry>
    <title>{{ post.title }}</title>
    <link href="{{ site.url }}{{ site.baseurlstrip }}{{ post.url }}"/>
