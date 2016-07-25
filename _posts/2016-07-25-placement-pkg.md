@@ -150,13 +150,7 @@ If you would like to apply this function to multiple address fields stored in se
 
 
 {% highlight r %}
-address_df[] <- sapply(address_df, placement::address_cleaner)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in lapply(X = X, FUN = FUN, ...): object 'address_df' not found
+address[] <- sapply(address, placement::address_cleaner)
 {% endhighlight %}
 
 Using your Google for Work account obviously requires a client ID and API key, but the methods to do so are well documented in the package help files. Feel free to shoot me an email if you run into any issues!  

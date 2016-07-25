@@ -122,13 +122,12 @@ $(document).ready(function () {
 </div>
 
 
-<p>A few months ago I set out to write an R package that would allow me to access the Maps API with a (paid) Google for Work account. At the time, I could not find an R package that would reliably generate the URL signature needed to use this type of account (which has much larger quotas than the standard API). Following Google’s directions for Python, I was able to create an R function that creates valid signatures for a URL request using the digest package, and ultimately found it easier to combine these signature with the entire URL creation/call/data processing. We have have been using this function for several months to geocode over a quarter million address records and it seems to be fairly stable in daily use. Along the way I added a few more features that are useful in our workgroup, including (1) a function to calculate distance (transit, driving, cycling, walking) between two places using Google Maps, as well as (2) a general purpose tool for cleaning address vectors of nasty characters that we have learned can inhibit valid geocoding. I also added methods for using the (free) standard api, so this package may also be useful for individuals without a Google for Work account (see also the excellent ggmaps package, though).</p>
-<p>This is an early version but in daily use I’ve seen few issues so far. That said I’d of course welcome any feedback or bug reports.</p>
-<p>The placement package, which includes examples, can be <a href="https://github.com/DerekYves/placement">viewed on Github</a> and installed in the usual way:</p>
+<p>A few months ago I set out to write an R package for accessing the Maps API with my employer’s (paid) <a href="https://developers.google.com/maps/documentation/directions/get-api-key#premium-auth">Google for Work/Premium account</a>. At the time, I was unable to find an R package that could generate the encrypted signature, send the URL to Google and process the JSON returns in one fell swoop. Following Google’s <a href="https://github.com/googlemaps/google-maps-services-python">directions for Python</a>, however, I was able to create an R function that creates valid signatures for a URL request using the <a href="https://cran.r-project.org/web/packages/digest/index.html"><code>digest</code></a> package’s implementation of the <em>sha-1</em> algorithm. Along the way I added a few additional features that are useful in our workgroup, including (1) a function to retrieve Google Map’s distance and travel time estimates (via public transit, driving, cycling, or walking) between two places (<a href="https://github.com/DerekYves/placement/blob/master/R/drive_time.R"><code>drive_time</code></a>), (2) a general purpose function for stripping address vectors of nasty characters that may break a geocode request (<a href="https://github.com/DerekYves/placement/blob/master/R/address_cleaner.R"><code>address_cleaner</code></a>), and (3) methods for accessing the Google API with a (free) standard account (see also the excellent <a href="https://cran.r-project.org/web/packages/ggmap/ggmap.pdf"><code>ggmaps</code></a> package, which provides a similar facility for geocoding with Google’s standard API).</p>
+<p>In daily use I’ve seen few issues thus far, and I’ve used earlier versions of this package to geocode about a quarter million physical locations in North America. The placement package, which includes examples, can be <a href="https://github.com/DerekYves/placement">viewed on Github</a> and installed in the usual way:</p>
 <pre class="r"><code>library(devtools)
 install_github(&quot;DerekYves/placement&quot;)
 library(placement)</code></pre>
-<p>Here’s a few examples using the standard (free) API:</p>
+<p>Here’s a few examples using the standard (free) API (see <a href="https://developers.google.com/maps/documentation/directions/get-api-key">here</a> to get a free API key from Google, which has higher quota limits than supplying an empty string):</p>
 <pre class="r"><code># Get coordinates for the Empire State Building and Google
 address &lt;- c(&quot;350 5th Ave, New York, NY 10118, USA&quot;,
              &quot;1600 Amphitheatre Pkwy,
@@ -146,20 +145,19 @@ print(coordset[ , 1:5])</code></pre>
 ##                                             formatted_address status
 ## 1 Empire State Building, 350 5th Ave, New York, NY 10118, USA     OK
 ## 2        1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA     OK</code></pre>
-<pre class="r"><code># Transit time (note there are some limitations with the standard API)
-
-# Bike from the NYC to Google!
+<p>Distance calculations (note that some transit options are not accessible with the standard API):</p>
+<pre class="r"><code># Bike from the NYC to Google!
 address &lt;- c(&quot;350 5th Ave, New York, NY 10118, USA&quot;,
              &quot;1600 Amphitheatre Pkwy, 
              Mountain View, CA 94043, USA&quot;)
 
-coordset &lt;- geocode_url(address, auth=&quot;standard_api&quot;, privkey=&quot;&quot;,
-            clean=TRUE, add_date='today', verbose=TRUE)</code></pre>
-<pre><code>## Sending address vector (n=2) to Google...
-## Finished. 2 of 2 records successfully geocoded.</code></pre>
-<pre class="r"><code># Save coordinates. Google requires a format of: &quot;lat,lng&quot; (with no spaces)
+# Google allows you to supply geo coordinates *or* a physical address 
+# for the distance API. In this example, we will supply coordinates
+# from our previous call. Google requires a string format of: 
+#   &quot;lat,lng&quot; (with no spaces) for coordinates.
+
 start &lt;- paste(coordset$lat[1],coordset$lng[1], sep=&quot;,&quot;)
-end &lt;- paste(coordset$lat[2],coordset$lng[2], sep=&quot;,&quot;)
+end   &lt;- paste(coordset$lat[2],coordset$lng[2], sep=&quot;,&quot;)
 
 # Get the travel time by bike (a mere 264 hours!) and distance in miles:
 howfar_miles &lt;- drive_time(address=start, dest=end, auth=&quot;standard_api&quot;,
@@ -182,6 +180,7 @@ with(howfar_kms,
         time_txt, sep=&quot;&quot;), sep=&quot;&quot;)</code></pre>
 <pre><code>## Cycling from NYC to 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA:
 ## 5,345 km over 11 days 17 hours</code></pre>
+<p>Address cleaning function:</p>
 <pre class="r"><code># Clean a &quot;messy&quot; or otherwise incompatible address vector:
 address &lt;- c(&quot; 350 5th Ave. ½, New York, NY 10118, USA &quot;,
              &quot;  ª1600  Amphitheatre Pkwy, 
@@ -200,6 +199,26 @@ address_cleaner(address)</code></pre>
 ##  * Removing various c/o string patterns</code></pre>
 <pre><code>## [1] &quot;350 5th Ave.  1/2, New York, NY 10118, USA&quot;           
 ## [2] &quot;a1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA&quot;</code></pre>
+<p>If you would like to apply this function to multiple address fields stored in separate columns (e.g., only “street 1” and “city”), you might try something like:</p>
+<pre class="r"><code>address[] &lt;- sapply(address, placement::address_cleaner)</code></pre>
+<pre><code>##  * Replacing non-breaking spaces
+##  * Removing control characters
+##  * Removing leading/trailing spaces, and runs of spaces
+##  * Transliterating latin1 characters
+##  * Converting special address markers
+##  * Removing all remaining non-ASCII characters
+##  * Remove single/double quotes and asterisks
+##  * Removing leading, trailing, and repeated commas
+##  * Removing various c/o string patterns
+##  * Replacing non-breaking spaces
+##  * Removing control characters
+##  * Removing leading/trailing spaces, and runs of spaces
+##  * Transliterating latin1 characters
+##  * Converting special address markers
+##  * Removing all remaining non-ASCII characters
+##  * Remove single/double quotes and asterisks
+##  * Removing leading, trailing, and repeated commas
+##  * Removing various c/o string patterns</code></pre>
 <p>Using your Google for Work account obviously requires a client ID and API key, but the methods to do so are well documented in the package help files. Feel free to shoot me an email if you run into any issues!</p>
 
 

@@ -102,9 +102,9 @@ address_cleaner(address)
 
 If you would like to apply this function to multiple address fields stored in separate columns (e.g., only "street 1" and "city"), you might try something like:
 
-```{r echo=TRUE}  
+```{r echo=TRUE, eval=FALSE}  
 
-address_df[] <- sapply(address_df, placement::address_cleaner)
+address[] <- sapply(address, placement::address_cleaner)
 
 ```
 
