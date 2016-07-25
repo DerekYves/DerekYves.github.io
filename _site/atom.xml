@@ -4,13 +4,12 @@
  <title>R from Stata</title>
  <link href="http://derekyves.github.io/atom.xml" rel="self"/>
  <link href="http://derekyves.github.io/"/>
- <updated>2016-07-25T12:01:41-04:00</updated>
+ <updated>2016-07-25T14:51:46-04:00</updated>
  <id>http://derekyves.github.io</id>
  <author>
    <name>Derek Darves</name>
    <email></email>
  </author>
-
 
 
 
@@ -123,8 +122,6 @@ my employer’s (paid) &lt;a href=&quot;https://developers.google.com/maps/docum
 </content>
  </entry>
 
-
-
  <entry>
    <title>Rsurveygizmo: An R package for interacting with the Survey Gizmo API</title>
    <link href="http://derekyves.github.io/2016/06/06/rsurvey-gizmo.html"/>
@@ -164,8 +161,6 @@ outlined in the package help files than are presented below for those who’d li
 
 </content>
  </entry>
-
-
 
  <entry>
    <title>Sharing R code in a workgroup of Mac/Windows/Linux users</title>
@@ -286,7 +281,6 @@ constructions that are used in a lot of example code, e.g. “x”, “y”, or 
 &lt;p&gt;I hope some or all of the above is helpful to somebody, and feel free to drop me an email if you have any questions!&lt;/p&gt;
 </content>
  </entry>
-
 
 
 </feed>
