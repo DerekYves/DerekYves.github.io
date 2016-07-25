@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Placement: An R package to Access the Google Maps API &middot; R from Stata
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/custom.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  
+  <!-- Mathjax -->
+  <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    
+    <!--Disqus comment counts-->
+    <script id="dsq-count-scr" src="//rfromstata.disqus.com/count.js" async></script>
+    
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+</head>
+
+
+  <body class="theme-base-0g">
+
+    </style>
+<div class="sidebar">
+     <!-- not used:<div class="container sidebar-sticky"> -->
+   <div class="sidebar-about">
+   <center><img src="/images/dd.png"></center>
+
+         <h1>
+        <a href="/">
+          R from Stata
+        </a>
+      </h1>
+      <p> The Personal Blog <br>of Derek Darves </p>
+    </div>
+    <nav class="sidebar-nav">
+	
+
+	
+	
+	  
+		
+	  
+	
+	  
+		
+	  
+	
+	  
+		
+	  
+	
+	  
+	
+	  
+		
+		  <a class="sidebar-nav-item" href="/about.html">About</a>
+		
+	  
+	
+	  
+		
+		  <a class="sidebar-nav-item" href="/archive.html">Archives</a>
+		
+	  
+	
+	  
+	
+	  
+		
+		  <a class="sidebar-nav-item" href="/categories.html">Categories</a>
+		
+	  
+	
+	  
+		
+	  
+	
+<hr>
+<p class="lead">Connect:</p>
+	
+		<li><a href="https://github.com/DerekYves">
+		  <i class="fa fa-github"></i>   GitHub
+		  </a>  </li>
+	
+	
+		<li><a href="https://twitter.com/dyd78">
+		  <i class="fa fa-twitter"></i> Twitter
+		  </a>  </li>
+	      
+	
+		<li><a href="https://linkedin.com/in/derek-darves-681a93a7">
+		  <i class="fa fa-linkedin"></i>   LinkedIn
+		  </a>  </li>
+	
+	
+		<li><a href="mailto:darves[at]gmail.com?Subject=Blog Question (be sure to correct the email address before sending)" target="_top">
+		  <i class="fa fa-envelope"></i> Email
+		  </a>  </li>
+		
+		<li><a href="/atom.xml" target="_top">
+		  <i class="fa fa-rss" aria-hidden="true"></i> RSS
+		  </a>  </li>
+	<br>
+<p class="lead">Blogroll:</p>
+      <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
+      <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
+      <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+      <br>
+      <a class="sidebar-nav-item">© Derek Darves, 2016</a>
+    </nav>
+<!-- not used:</div> -->
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Placement: An R package to Access the Google Maps API</h1>
+  <span class="post-date">24 Jul 2016</span>
+  <p>A few months ago I set out to write an R package for accessing the Maps API with 
+my employer’s (paid) <a href="https://developers.google.com/maps/documentation/directions/get-api-key#premium-auth">Google for Work/Premium account</a>. At the time, I was unable to find an R package that could generate the encrypted signature, send the URL to Google and process the JSON returns in one fell swoop. Following Google’s <a href="https://github.com/googlemaps/google-maps-services-python">directions for Python</a>, however, I was able to create an R function that creates valid signatures for a URL request using the   <a href="https://cran.r-project.org/web/packages/digest/index.html"><code class="highlighter-rouge">digest</code></a> package’s implementation of the <em>sha-1</em> algorithm. Along the way I added a few additional features that are useful in our workgroup, including (1) a function to retrieve Google Map’s distance and travel time estimates (via public transit, driving, cycling, or walking) between two places  (<a href="https://github.com/DerekYves/placement/blob/master/R/drive_time.R"><code class="highlighter-rouge">drive_time</code></a>), (2) a general purpose function for stripping address vectors of nasty characters that may break a geocode request (<a href="https://github.com/DerekYves/placement/blob/master/R/address_cleaner.R"><code class="highlighter-rouge">address_cleaner</code></a>), and (3) methods for accessing the Google API with a (free) standard account (see also the excellent <a href="https://cran.r-project.org/web/packages/ggmap/ggmap.pdf"><code class="highlighter-rouge">ggmaps</code></a> package, which provides a similar facility for geocoding with Google’s standard API).</p>
+
+<p>In daily use I’ve seen few issues thus far, and I’ve used earlier versions of this package to geocode about a quarter million physical locations in North America. The placement package, which includes examples, can be <a href="https://github.com/DerekYves/placement">viewed on Github</a> and installed in the usual way:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span><span class="w">
+</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"DerekYves/placement"</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span></code></pre></figure>
+
+<p>Here’s a few examples using the standard (free) API (see <a href="https://developers.google.com/maps/documentation/directions/get-api-key">here</a> to get a free API key from Google, which has higher quota limits than supplying an empty string):</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Get coordinates for the Empire State Building and Google
+</span><span class="n">address</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"350 5th Ave, New York, NY 10118, USA"</span><span class="p">,</span><span class="w">
+			 </span><span class="s2">"1600 Amphitheatre Pkwy,
+			 Mountain View, CA 94043, USA"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">coordset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">geocode_url</span><span class="p">(</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="o">=</span><span class="s2">"standard_api"</span><span class="p">,</span><span class="w"> </span><span class="n">privkey</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="n">clean</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">add_date</span><span class="o">=</span><span class="s1">'today'</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Sending address vector (n=2) to Google...
+## Finished. 2 of 2 records successfully geocoded.</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># View the returns
+</span><span class="n">print</span><span class="p">(</span><span class="n">coordset</span><span class="p">[</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">##        lat        lng location_type
+## 1 40.74844  -73.98566       ROOFTOP
+## 2 37.42234 -122.08437       ROOFTOP
+##                                             formatted_address status
+## 1 Empire State Building, 350 5th Ave, New York, NY 10118, USA     OK
+## 2        1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA     OK</code></pre></figure>
+
+<p>Distance calculations (note that some transit options are not accessible with the standard API):</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Bike from the NYC to Google!
+</span><span class="n">address</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"350 5th Ave, New York, NY 10118, USA"</span><span class="p">,</span><span class="w">
+			 </span><span class="s2">"1600 Amphitheatre Pkwy, 
+			 Mountain View, CA 94043, USA"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Google allows you to supply geo coordinates *or* a physical address 
+# for the distance API. In this example, we will supply coordinates
+# from our previous call. Google requires a string format of: 
+#   "lat,lng" (with no spaces) for coordinates.
+</span><span class="w">
+</span><span class="n">start</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">coordset</span><span class="o">$</span><span class="n">lat</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="n">coordset</span><span class="o">$</span><span class="n">lng</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
+</span><span class="n">end</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">coordset</span><span class="o">$</span><span class="n">lat</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="n">coordset</span><span class="o">$</span><span class="n">lng</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Get the travel time by bike (a mere 264 hours!) and distance in miles:
+</span><span class="n">howfar_miles</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">drive_time</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="o">=</span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="o">=</span><span class="s2">"standard_api"</span><span class="p">,</span><span class="w">
+						   </span><span class="n">privkey</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">clean</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">add_date</span><span class="o">=</span><span class="s1">'today'</span><span class="p">,</span><span class="w">
+						   </span><span class="n">verbose</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">travel_mode</span><span class="o">=</span><span class="s2">"bicycling"</span><span class="p">,</span><span class="w">
+						   </span><span class="n">units</span><span class="o">=</span><span class="s2">"imperial"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Get the distance in kilometers using physical addresses instead of lat/lng:
+</span><span class="n">howfar_kms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">drive_time</span><span class="p">(</span><span class="w">
+     </span><span class="n">address</span><span class="o">=</span><span class="s2">"350 5th Ave, New York, NY 10118"</span><span class="p">,</span><span class="w">
+		</span><span class="n">dest</span><span class="o">=</span><span class="s2">"1600 Amphitheatre Pkwy, Mountain View, CA"</span><span class="p">,</span><span class="w">
+		</span><span class="n">auth</span><span class="o">=</span><span class="s2">"standard_api"</span><span class="p">,</span><span class="w"> </span><span class="n">privkey</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">clean</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+		</span><span class="n">add_date</span><span class="o">=</span><span class="s1">'today'</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">travel_mode</span><span class="o">=</span><span class="s2">"bicycling"</span><span class="p">,</span><span class="w">
+		</span><span class="n">units</span><span class="o">=</span><span class="s2">"metric"</span><span class="w">
+		</span><span class="p">)</span><span class="w">
+
+</span><span class="n">with</span><span class="p">(</span><span class="n">howfar_kms</span><span class="p">,</span><span class="w"> 
+	 </span><span class="n">cat</span><span class="p">(</span><span class="s2">"Cycling from NYC to "</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">,</span><span class="w">
+	 	</span><span class="s2">":\n"</span><span class="p">,</span><span class="w"> </span><span class="n">dist_txt</span><span class="p">,</span><span class="w"> </span><span class="s2">" over "</span><span class="p">,</span><span class="w"> 
+	 	</span><span class="n">time_txt</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Cycling from NYC to 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA:
+## 5,345 km over 11 days 17 hours</code></pre></figure>
+
+<p>Address cleaning function:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Clean a "messy" or otherwise incompatible address vector:
+</span><span class="n">address</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">" 350 5th Ave. ½, New York, NY 10118, USA "</span><span class="p">,</span><span class="w">
+			 </span><span class="s2">"  ª1600  Amphitheatre Pkwy, 
+			 Mountain View, CA 94043, USA"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># View the return:
+</span><span class="n">address_cleaner</span><span class="p">(</span><span class="n">address</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## 	* Replacing non-breaking spaces
+## 	* Removing control characters
+## 	* Removing leading/trailing spaces, and runs of spaces
+## 	* Transliterating latin1 characters
+## 	* Converting special address markers
+## 	* Removing all remaining non-ASCII characters
+## 	* Remove single/double quotes and asterisks
+## 	* Removing leading, trailing, and repeated commas
+## 	* Removing various c/o string patterns</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## [1] "350 5th Ave.  1/2, New York, NY 10118, USA"           
+## [2] "a1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA"</code></pre></figure>
+
+<p>If you would like to apply this function to multiple address fields stored in separate columns (e.g., only “street 1” and “city”), you might try something like:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">address_df</span><span class="p">[]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sapply</span><span class="p">(</span><span class="n">address_df</span><span class="p">,</span><span class="w"> </span><span class="n">placement</span><span class="o">::</span><span class="n">address_cleaner</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Error in lapply(X = X, FUN = FUN, ...): object 'address_df' not found</code></pre></figure>
+
+<p>Using your Google for Work account obviously requires a client ID and API key, but the methods to do so are well documented in the package help files. Feel free to shoot me an email if you run into any issues!</p>
+
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/06/06/rsurvey-gizmo.html" class = "post-title">
+            Rsurveygizmo: An R package for interacting with the Survey Gizmo API
+            <small>06 Jun 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/05/10/codeshare.html" class = "post-title">
+            Sharing R code in a workgroup of Mac/Windows/Linux users
+            <small>10 May 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<a href="https://twitter.com/share" class="twitter-share-button"{count}>Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-share-button" data-href="http://derekyves.github.io" data-layout="button_count"></div>
+
+
+
+
+<div id="disqus_thread"></div>
+
+<script>(function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//rfromstata.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+    </div>
+
+  </body>
+</html>

@@ -131,6 +131,8 @@
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+      <br>
+      <a class="sidebar-nav-item">© Derek Darves, 2016</a>
     </nav>
 <!-- not used:</div> -->
 </div>
@@ -155,52 +157,52 @@
 <p>1. The same (hopefully source controlled) file is sourced at the top of each <em>analysis</em> script. At the point of sourcing some parameters are declared which do the correct thing depending on whether the host is Linux, Mac, or Windows. Here’s an example:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Load host-dependent directory environment
-</span><span class="n">winos</span> <span class="o">&lt;-</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span> <span class="n">Sys.info</span><span class="p">()[</span><span class="s1">'sysname'</span><span class="p">],</span> <span class="n">ignore.case</span><span class="o">=</span><span class="n">T</span><span class="p">),</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">1</span><span class="p">)</span> <span class="n">source</span><span class="p">(</span><span class="s2">"C:/data/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">0</span><span class="p">)</span> <span class="n">source</span><span class="p">(</span><span class="s2">"~/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span>
-<span class="n">rm</span><span class="p">(</span><span class="n">winos</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span></code></pre></figure>
+</span><span class="n">winos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span><span class="w"> </span><span class="n">Sys.info</span><span class="p">()[</span><span class="s1">'sysname'</span><span class="p">],</span><span class="w"> </span><span class="n">ignore.case</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="s2">"C:/data/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="s2">"~/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span><span class="w">
+</span><span class="n">rm</span><span class="p">(</span><span class="n">winos</span><span class="p">,</span><span class="w"> </span><span class="n">host</span><span class="p">)</span></code></pre></figure>
 
 <p>2. The next step is to build your version of the file/directory parameter file that was sourced in step 1 by a script (in this post I’ll call this file “file_dir_params.R”).</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#--begin file_dir_params.R script--#
-</span>
-<span class="c1"># Make a new environment:
-</span><span class="n">fdirs</span> <span class="o">&lt;-</span> <span class="n">new.env</span><span class="p">()</span></code></pre></figure>
+</span><span class="w">
+</span><span class="c1"># Make a new environment:
+</span><span class="n">fdirs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">new.env</span><span class="p">()</span></code></pre></figure>
 
 <p>3. Now add this function to the “file_dir_params.R”, which is used to save a simple string indicating the host’s OS type:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Function to standardize host OS name
-</span><span class="n">get_os</span> <span class="o">&lt;-</span> <span class="k">function</span><span class="p">(){</span>
-	<span class="n">sysinf</span> <span class="o">&lt;-</span> <span class="n">Sys.info</span><span class="p">()</span>
-	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">is.null</span><span class="p">(</span><span class="n">sysinf</span><span class="p">)){</span>
-		<span class="n">os</span> <span class="o">&lt;-</span> <span class="n">sysinf</span><span class="p">[</span><span class="s1">'sysname'</span><span class="p">]</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">os</span> <span class="o">==</span> <span class="s1">'Darwin'</span><span class="p">)</span>
-			<span class="n">os</span> <span class="o">&lt;-</span> <span class="s2">"osx"</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="n">os</span> <span class="o">&lt;-</span> <span class="n">.Platform</span><span class="o">$</span><span class="n">OS.type</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"^darwin"</span><span class="p">,</span> <span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span>
-			<span class="n">os</span> <span class="o">&lt;-</span> <span class="s2">"osx"</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"linux-gnu"</span><span class="p">,</span> <span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span>
-			<span class="n">os</span> <span class="o">&lt;-</span> <span class="s2">"linux"</span>
-	<span class="p">}</span>
-	<span class="n">tolower</span><span class="p">(</span><span class="n">os</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span> <span class="o">&lt;-</span> <span class="n">get_os</span><span class="p">()</span></code></pre></figure>
+</span><span class="n">get_os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(){</span><span class="w">
+	</span><span class="n">sysinf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Sys.info</span><span class="p">()</span><span class="w">
+	</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">sysinf</span><span class="p">)){</span><span class="w">
+		</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sysinf</span><span class="p">[</span><span class="s1">'sysname'</span><span class="p">]</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">os</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Darwin'</span><span class="p">)</span><span class="w">
+			</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"osx"</span><span class="w">
+	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+		</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">.Platform</span><span class="o">$</span><span class="n">OS.type</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"^darwin"</span><span class="p">,</span><span class="w"> </span><span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span><span class="w">
+			</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"osx"</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"linux-gnu"</span><span class="p">,</span><span class="w"> </span><span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span><span class="w">
+			</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"linux"</span><span class="w">
+	</span><span class="p">}</span><span class="w">
+	</span><span class="n">tolower</span><span class="p">(</span><span class="n">os</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_os</span><span class="p">()</span></code></pre></figure>
 
 <p>4. With our new environment loaded and knowledge of the computer’s OS, we’re ready to build platform agnostic variables that point to the most important shared directories in your group:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Declare the root project and data directory:
-</span>
-<span class="n">show</span>  <span class="o">&lt;-</span> <span class="m">1</span>
-<span class="n">build</span> <span class="o">&lt;-</span> <span class="m">1</span>
+</span><span class="w">
+</span><span class="n">show</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="n">build</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
 
-<span class="k">if</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span> <span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span><span class="p">)</span><span class="o">==</span><span class="n">F</span><span class="p">){</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span> <span class="o">&lt;-</span> <span class="s2">"~/projects/"</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span> <span class="o">&lt;-</span> <span class="s2">"/your_data/"</span>
-  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span> <span class="o">&lt;-</span> <span class="s2">"C:/projects/"</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span> <span class="o">&lt;-</span> <span class="s2">"D:/your_data/"</span>
-<span class="p">}</span></code></pre></figure>
+</span><span class="k">if</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span><span class="w"> </span><span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span><span class="p">)</span><span class="o">==</span><span class="nb">F</span><span class="p">){</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"~/projects/"</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"/your_data/"</span><span class="w">
+  </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"C:/projects/"</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"D:/your_data/"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
 <p>5. Depending on your setup you may have multiple project or data folders you want to declare. 
 To keep my life simple on my development machine, I try and make all data a sub-directory of “prjdta” 
@@ -215,15 +217,15 @@ in dozens of scripts. I just change the root data folder (in this example, “fd
 and everything else takes care of itself in my batch environment. Here’s some examples:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Add some child objects to the fdirs environment:
-</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span>   <span class="o">&lt;-</span> <span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="p">,</span> <span class="s2">"data_quality/source/"</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">show</span><span class="o">==</span><span class="m">1</span> <span class="o">&amp;</span> <span class="n">interactive</span><span class="p">())</span> <span class="n">cat</span><span class="p">(</span><span class="s2">"\ndqrptsrc ="</span><span class="p">,</span> <span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">make</span><span class="o">==</span><span class="m">1</span><span class="p">)</span> <span class="n">system</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"mkdir -p "</span><span class="p">,</span> <span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">))</span>
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="p">,</span><span class="w"> </span><span class="s2">"data_quality/source/"</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">show</span><span class="o">==</span><span class="m">1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">interactive</span><span class="p">())</span><span class="w"> </span><span class="n">cat</span><span class="p">(</span><span class="s2">"\ndqrptsrc ="</span><span class="p">,</span><span class="w"> </span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">make</span><span class="o">==</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="n">system</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"mkdir -p "</span><span class="p">,</span><span class="w"> </span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">))</span><span class="w">
 
-<span class="c1"># Define some colors for (say) GGPlot using your organization's color codes:
-</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_ppt_orange</span> <span class="o">&lt;-</span> <span class="s2">"#FF6122"</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_blue</span>    <span class="o">&lt;-</span> <span class="s2">"#30812E"</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_red</span>     <span class="o">&lt;-</span> <span class="s2">"#D0212E"</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_green</span>   <span class="o">&lt;-</span> <span class="s2">"#8EB126"</span></code></pre></figure>
+</span><span class="c1"># Define some colors for (say) GGPlot using your organization's color codes:
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_ppt_orange</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#FF6122"</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_blue</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#30812E"</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_red</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#D0212E"</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_green</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#8EB126"</span></code></pre></figure>
 
 <p>6. Notice how, in the lines above, I reference the “show” and “build” flags we declared near the top of the “file_dir_params.R” script.
 What these do, respectively, is print the file location of the variable to standard output and build the folder if it does not exist. This can be
@@ -232,20 +234,20 @@ useful but is not strictly necessary.</p>
 <p>7. Our last step is to attach the “fdirs” environment (or safely reload it if it’s already attached):</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Attach the new environment (and safely reload if already attached):
-</span><span class="k">while</span><span class="p">(</span><span class="s2">"fdirs"</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">search</span><span class="p">())</span>
-<span class="n">detach</span><span class="p">(</span><span class="s2">"fdirs"</span><span class="p">)</span>
-<span class="n">attach</span><span class="p">(</span><span class="n">fdirs</span><span class="p">)</span></code></pre></figure>
+</span><span class="k">while</span><span class="p">(</span><span class="s2">"fdirs"</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">search</span><span class="p">())</span><span class="w">
+</span><span class="n">detach</span><span class="p">(</span><span class="s2">"fdirs"</span><span class="p">)</span><span class="w">
+</span><span class="n">attach</span><span class="p">(</span><span class="n">fdirs</span><span class="p">)</span></code></pre></figure>
 
 <p><strong>Final Thoughts</strong></p>
 
 <p>Attaching the environment as we did in step 7 is a great time saver because your can omit the “fdirs$” prefix when you reference variables in your scripts. For example, to load a file in a data
 folder I now just write:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">dqrptsrc</span><span class="p">,</span> <span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">dqrptsrc</span><span class="p">,</span><span class="w"> </span><span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
 
 <p>As opposed to:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">,</span> <span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">,</span><span class="w"> </span><span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
 
 <p>But, as with everything, there’s a draw back: you’ll want to make sure the names of your variables don’t overlap with functions
 or other items you declare in a script. For this reason I use expressions like “prjdta” rather than “data”, and I avoid overly concise
@@ -258,6 +260,15 @@ constructions that are used in a lot of example code, e.g. “x”, “y”, or 
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/07/24/placement-pkg.html" class = "post-title">
+            Placement: An R package to Access the Google Maps API
+            <small>24 Jul 2016</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>

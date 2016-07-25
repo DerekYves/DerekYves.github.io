@@ -131,6 +131,8 @@
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+      <br>
+      <a class="sidebar-nav-item">© Derek Darves, 2016</a>
     </nav>
 <!-- not used:</div> -->
 </div>
@@ -187,6 +189,15 @@ Happy blogging.
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/06/06/rsurvey-gizmo.html" class = "post-title">
+            Rsurveygizmo: An R package for interacting with the Survey Gizmo API
+            <small>06 Jun 2016</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>

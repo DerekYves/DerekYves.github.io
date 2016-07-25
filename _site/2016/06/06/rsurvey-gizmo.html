@@ -131,6 +131,8 @@
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+      <br>
+      <a class="sidebar-nav-item">© Derek Darves, 2016</a>
     </nav>
 <!-- not used:</div> -->
 </div>
@@ -154,21 +156,21 @@ outlined in the package help files than are presented below for those who’d li
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Download a "regular" survey with no email campaign data,
 # keeping only complete responses:
-</span><span class="n">api</span> <span class="o">&lt;-</span> <span class="s2">"your_api_key_here"</span>
-<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">completes_only</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> 
+</span><span class="n">api</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="w">
+</span><span class="n">a_survey</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">completes_only</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w"> 
 
-<span class="c1"># Download all email campaign data for a particular survey:
-</span><span class="n">a_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span> 
+</span><span class="c1"># Download all email campaign data for a particular survey:
+</span><span class="n">a_campaign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">)</span><span class="w"> 
 
-<span class="c1"># Combine the previous steps in one function:
+</span><span class="c1"># Combine the previous steps in one function:
 # 1. download email campaign 
 # 2. merge it, where possible, with a survey response 
-</span><span class="n">a_survey_with_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">mergecampaign</span><span class="o">=</span><span class="n">T</span><span class="p">)</span></code></pre></figure>
+</span><span class="n">a_survey_with_campaign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">mergecampaign</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span></code></pre></figure>
 
 <p>If you’d like to give the package a spin you can <a href="https://github.com/DerekYves/rsurveygizmo">visit the Github repository</a> or install directly within R:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span>
-<span class="n">install_github</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"DerekYves/rsurveygizmo"</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span><span class="w">
+</span><span class="n">install_github</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"DerekYves/rsurveygizmo"</span><span class="p">)</span></code></pre></figure>
 
 <p>I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to <a href="http://www.arilamstein.com/">Ari Lamstein</a> for teahing me the ropes of R package development and the wonders of Roxygen.</p>
 
@@ -178,6 +180,15 @@ outlined in the package help files than are presented below for those who’d li
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/07/24/placement-pkg.html" class = "post-title">
+            Placement: An R package to Access the Google Maps API
+            <small>24 Jul 2016</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>

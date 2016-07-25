@@ -131,6 +131,8 @@
       <a class="sidebar-nav-item" href="http://www.r-bloggers.com/">R-Bloggers</a>
       <a class="sidebar-nav-item" href="http://www.arilamstein.com/">Ari Lamstein</a>
       <a class="sidebar-nav-item" href="http://walkerke.github.io/">Kyle Walker</a>
+      <br>
+      <a class="sidebar-nav-item">© Derek Darves, 2016</a>
     </nav>
 <!-- not used:</div> -->
 </div>
@@ -138,6 +140,122 @@
 
     <div class="content container">
       <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2016/07/24/placement-pkg.html">
+        Placement: An R package to Access the Google Maps API
+      </a>
+    </h1>
+    
+<a href="/2016/07/24/placement-pkg.html#disqus_thread"
+    class = "commentcount"></a>
+    
+    <span class="post-date">24 Jul 2016</span>
+
+    <p>A few months ago I set out to write an R package for accessing the Maps API with 
+my employer’s (paid) <a href="https://developers.google.com/maps/documentation/directions/get-api-key#premium-auth">Google for Work/Premium account</a>. At the time, I was unable to find an R package that could generate the encrypted signature, send the URL to Google and process the JSON returns in one fell swoop. Following Google’s <a href="https://github.com/googlemaps/google-maps-services-python">directions for Python</a>, however, I was able to create an R function that creates valid signatures for a URL request using the   <a href="https://cran.r-project.org/web/packages/digest/index.html"><code class="highlighter-rouge">digest</code></a> package’s implementation of the <em>sha-1</em> algorithm. Along the way I added a few additional features that are useful in our workgroup, including (1) a function to retrieve Google Map’s distance and travel time estimates (via public transit, driving, cycling, or walking) between two places  (<a href="https://github.com/DerekYves/placement/blob/master/R/drive_time.R"><code class="highlighter-rouge">drive_time</code></a>), (2) a general purpose function for stripping address vectors of nasty characters that may break a geocode request (<a href="https://github.com/DerekYves/placement/blob/master/R/address_cleaner.R"><code class="highlighter-rouge">address_cleaner</code></a>), and (3) methods for accessing the Google API with a (free) standard account (see also the excellent <a href="https://cran.r-project.org/web/packages/ggmap/ggmap.pdf"><code class="highlighter-rouge">ggmaps</code></a> package, which provides a similar facility for geocoding with Google’s standard API).</p>
+
+<p>In daily use I’ve seen few issues thus far, and I’ve used earlier versions of this package to geocode about a quarter million physical locations in North America. The placement package, which includes examples, can be <a href="https://github.com/DerekYves/placement">viewed on Github</a> and installed in the usual way:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span><span class="w">
+</span><span class="n">install_github</span><span class="p">(</span><span class="s2">"DerekYves/placement"</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">placement</span><span class="p">)</span></code></pre></figure>
+
+<p>Here’s a few examples using the standard (free) API (see <a href="https://developers.google.com/maps/documentation/directions/get-api-key">here</a> to get a free API key from Google, which has higher quota limits than supplying an empty string):</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Get coordinates for the Empire State Building and Google
+</span><span class="n">address</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"350 5th Ave, New York, NY 10118, USA"</span><span class="p">,</span><span class="w">
+			 </span><span class="s2">"1600 Amphitheatre Pkwy,
+			 Mountain View, CA 94043, USA"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">coordset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">geocode_url</span><span class="p">(</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="o">=</span><span class="s2">"standard_api"</span><span class="p">,</span><span class="w"> </span><span class="n">privkey</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w">
+            </span><span class="n">clean</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">add_date</span><span class="o">=</span><span class="s1">'today'</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Sending address vector (n=2) to Google...
+## Finished. 2 of 2 records successfully geocoded.</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># View the returns
+</span><span class="n">print</span><span class="p">(</span><span class="n">coordset</span><span class="p">[</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">])</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">##        lat        lng location_type
+## 1 40.74844  -73.98566       ROOFTOP
+## 2 37.42234 -122.08437       ROOFTOP
+##                                             formatted_address status
+## 1 Empire State Building, 350 5th Ave, New York, NY 10118, USA     OK
+## 2        1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA     OK</code></pre></figure>
+
+<p>Distance calculations (note that some transit options are not accessible with the standard API):</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Bike from the NYC to Google!
+</span><span class="n">address</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"350 5th Ave, New York, NY 10118, USA"</span><span class="p">,</span><span class="w">
+			 </span><span class="s2">"1600 Amphitheatre Pkwy, 
+			 Mountain View, CA 94043, USA"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Google allows you to supply geo coordinates *or* a physical address 
+# for the distance API. In this example, we will supply coordinates
+# from our previous call. Google requires a string format of: 
+#   "lat,lng" (with no spaces) for coordinates.
+</span><span class="w">
+</span><span class="n">start</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">coordset</span><span class="o">$</span><span class="n">lat</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="n">coordset</span><span class="o">$</span><span class="n">lng</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
+</span><span class="n">end</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="n">coordset</span><span class="o">$</span><span class="n">lat</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="n">coordset</span><span class="o">$</span><span class="n">lng</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">","</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Get the travel time by bike (a mere 264 hours!) and distance in miles:
+</span><span class="n">howfar_miles</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">drive_time</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="o">=</span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">auth</span><span class="o">=</span><span class="s2">"standard_api"</span><span class="p">,</span><span class="w">
+						   </span><span class="n">privkey</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">clean</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">add_date</span><span class="o">=</span><span class="s1">'today'</span><span class="p">,</span><span class="w">
+						   </span><span class="n">verbose</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">travel_mode</span><span class="o">=</span><span class="s2">"bicycling"</span><span class="p">,</span><span class="w">
+						   </span><span class="n">units</span><span class="o">=</span><span class="s2">"imperial"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Get the distance in kilometers using physical addresses instead of lat/lng:
+</span><span class="n">howfar_kms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">drive_time</span><span class="p">(</span><span class="w">
+     </span><span class="n">address</span><span class="o">=</span><span class="s2">"350 5th Ave, New York, NY 10118"</span><span class="p">,</span><span class="w">
+		</span><span class="n">dest</span><span class="o">=</span><span class="s2">"1600 Amphitheatre Pkwy, Mountain View, CA"</span><span class="p">,</span><span class="w">
+		</span><span class="n">auth</span><span class="o">=</span><span class="s2">"standard_api"</span><span class="p">,</span><span class="w"> </span><span class="n">privkey</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">clean</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+		</span><span class="n">add_date</span><span class="o">=</span><span class="s1">'today'</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">travel_mode</span><span class="o">=</span><span class="s2">"bicycling"</span><span class="p">,</span><span class="w">
+		</span><span class="n">units</span><span class="o">=</span><span class="s2">"metric"</span><span class="w">
+		</span><span class="p">)</span><span class="w">
+
+</span><span class="n">with</span><span class="p">(</span><span class="n">howfar_kms</span><span class="p">,</span><span class="w"> 
+	 </span><span class="n">cat</span><span class="p">(</span><span class="s2">"Cycling from NYC to "</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">,</span><span class="w">
+	 	</span><span class="s2">":\n"</span><span class="p">,</span><span class="w"> </span><span class="n">dist_txt</span><span class="p">,</span><span class="w"> </span><span class="s2">" over "</span><span class="p">,</span><span class="w"> 
+	 	</span><span class="n">time_txt</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Cycling from NYC to 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA:
+## 5,345 km over 11 days 17 hours</code></pre></figure>
+
+<p>Address cleaning function:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Clean a "messy" or otherwise incompatible address vector:
+</span><span class="n">address</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">" 350 5th Ave. ½, New York, NY 10118, USA "</span><span class="p">,</span><span class="w">
+			 </span><span class="s2">"  ª1600  Amphitheatre Pkwy, 
+			 Mountain View, CA 94043, USA"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># View the return:
+</span><span class="n">address_cleaner</span><span class="p">(</span><span class="n">address</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## 	* Replacing non-breaking spaces
+## 	* Removing control characters
+## 	* Removing leading/trailing spaces, and runs of spaces
+## 	* Transliterating latin1 characters
+## 	* Converting special address markers
+## 	* Removing all remaining non-ASCII characters
+## 	* Remove single/double quotes and asterisks
+## 	* Removing leading, trailing, and repeated commas
+## 	* Removing various c/o string patterns</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## [1] "350 5th Ave.  1/2, New York, NY 10118, USA"           
+## [2] "a1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA"</code></pre></figure>
+
+<p>If you would like to apply this function to multiple address fields stored in separate columns (e.g., only “street 1” and “city”), you might try something like:</p>
+
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">address_df</span><span class="p">[]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sapply</span><span class="p">(</span><span class="n">address_df</span><span class="p">,</span><span class="w"> </span><span class="n">placement</span><span class="o">::</span><span class="n">address_cleaner</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">## Error in lapply(X = X, FUN = FUN, ...): object 'address_df' not found</code></pre></figure>
+
+<p>Using your Google for Work account obviously requires a client ID and API key, but the methods to do so are well documented in the package help files. Feel free to shoot me an email if you run into any issues!</p>
+
+
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -165,21 +283,21 @@ outlined in the package help files than are presented below for those who’d li
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Download a "regular" survey with no email campaign data,
 # keeping only complete responses:
-</span><span class="n">api</span> <span class="o">&lt;-</span> <span class="s2">"your_api_key_here"</span>
-<span class="n">a_survey</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">completes_only</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> 
+</span><span class="n">api</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="w">
+</span><span class="n">a_survey</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">completes_only</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w"> 
 
-<span class="c1"># Download all email campaign data for a particular survey:
-</span><span class="n">a_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span> 
+</span><span class="c1"># Download all email campaign data for a particular survey:
+</span><span class="n">a_campaign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">)</span><span class="w"> 
 
-<span class="c1"># Combine the previous steps in one function:
+</span><span class="c1"># Combine the previous steps in one function:
 # 1. download email campaign 
 # 2. merge it, where possible, with a survey response 
-</span><span class="n">a_survey_with_campaign</span> <span class="o">&lt;-</span> <span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span> <span class="n">mergecampaign</span><span class="o">=</span><span class="n">T</span><span class="p">)</span></code></pre></figure>
+</span><span class="n">a_survey_with_campaign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">mergecampaign</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span></code></pre></figure>
 
 <p>If you’d like to give the package a spin you can <a href="https://github.com/DerekYves/rsurveygizmo">visit the Github repository</a> or install directly within R:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span>
-<span class="n">install_github</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"DerekYves/rsurveygizmo"</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span><span class="w">
+</span><span class="n">install_github</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"DerekYves/rsurveygizmo"</span><span class="p">)</span></code></pre></figure>
 
 <p>I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to <a href="http://www.arilamstein.com/">Ari Lamstein</a> for teahing me the ropes of R package development and the wonders of Roxygen.</p>
 
@@ -213,52 +331,52 @@ outlined in the package help files than are presented below for those who’d li
 <p>1. The same (hopefully source controlled) file is sourced at the top of each <em>analysis</em> script. At the point of sourcing some parameters are declared which do the correct thing depending on whether the host is Linux, Mac, or Windows. Here’s an example:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Load host-dependent directory environment
-</span><span class="n">winos</span> <span class="o">&lt;-</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span> <span class="n">Sys.info</span><span class="p">()[</span><span class="s1">'sysname'</span><span class="p">],</span> <span class="n">ignore.case</span><span class="o">=</span><span class="n">T</span><span class="p">),</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">1</span><span class="p">)</span> <span class="n">source</span><span class="p">(</span><span class="s2">"C:/data/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">0</span><span class="p">)</span> <span class="n">source</span><span class="p">(</span><span class="s2">"~/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span>
-<span class="n">rm</span><span class="p">(</span><span class="n">winos</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span></code></pre></figure>
+</span><span class="n">winos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span><span class="w"> </span><span class="n">Sys.info</span><span class="p">()[</span><span class="s1">'sysname'</span><span class="p">],</span><span class="w"> </span><span class="n">ignore.case</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="s2">"C:/data/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">winos</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="s2">"~/projects/scripts/R/functions/file_dir_params.R"</span><span class="p">)</span><span class="w">
+</span><span class="n">rm</span><span class="p">(</span><span class="n">winos</span><span class="p">,</span><span class="w"> </span><span class="n">host</span><span class="p">)</span></code></pre></figure>
 
 <p>2. The next step is to build your version of the file/directory parameter file that was sourced in step 1 by a script (in this post I’ll call this file “file_dir_params.R”).</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">#--begin file_dir_params.R script--#
-</span>
-<span class="c1"># Make a new environment:
-</span><span class="n">fdirs</span> <span class="o">&lt;-</span> <span class="n">new.env</span><span class="p">()</span></code></pre></figure>
+</span><span class="w">
+</span><span class="c1"># Make a new environment:
+</span><span class="n">fdirs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">new.env</span><span class="p">()</span></code></pre></figure>
 
 <p>3. Now add this function to the “file_dir_params.R”, which is used to save a simple string indicating the host’s OS type:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Function to standardize host OS name
-</span><span class="n">get_os</span> <span class="o">&lt;-</span> <span class="k">function</span><span class="p">(){</span>
-	<span class="n">sysinf</span> <span class="o">&lt;-</span> <span class="n">Sys.info</span><span class="p">()</span>
-	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">is.null</span><span class="p">(</span><span class="n">sysinf</span><span class="p">)){</span>
-		<span class="n">os</span> <span class="o">&lt;-</span> <span class="n">sysinf</span><span class="p">[</span><span class="s1">'sysname'</span><span class="p">]</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">os</span> <span class="o">==</span> <span class="s1">'Darwin'</span><span class="p">)</span>
-			<span class="n">os</span> <span class="o">&lt;-</span> <span class="s2">"osx"</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="n">os</span> <span class="o">&lt;-</span> <span class="n">.Platform</span><span class="o">$</span><span class="n">OS.type</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"^darwin"</span><span class="p">,</span> <span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span>
-			<span class="n">os</span> <span class="o">&lt;-</span> <span class="s2">"osx"</span>
-		<span class="k">if</span> <span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"linux-gnu"</span><span class="p">,</span> <span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span>
-			<span class="n">os</span> <span class="o">&lt;-</span> <span class="s2">"linux"</span>
-	<span class="p">}</span>
-	<span class="n">tolower</span><span class="p">(</span><span class="n">os</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span> <span class="o">&lt;-</span> <span class="n">get_os</span><span class="p">()</span></code></pre></figure>
+</span><span class="n">get_os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(){</span><span class="w">
+	</span><span class="n">sysinf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Sys.info</span><span class="p">()</span><span class="w">
+	</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">sysinf</span><span class="p">)){</span><span class="w">
+		</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sysinf</span><span class="p">[</span><span class="s1">'sysname'</span><span class="p">]</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">os</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Darwin'</span><span class="p">)</span><span class="w">
+			</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"osx"</span><span class="w">
+	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+		</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">.Platform</span><span class="o">$</span><span class="n">OS.type</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"^darwin"</span><span class="p">,</span><span class="w"> </span><span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span><span class="w">
+			</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"osx"</span><span class="w">
+		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"linux-gnu"</span><span class="p">,</span><span class="w"> </span><span class="n">R.version</span><span class="o">$</span><span class="n">os</span><span class="p">))</span><span class="w">
+			</span><span class="n">os</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"linux"</span><span class="w">
+	</span><span class="p">}</span><span class="w">
+	</span><span class="n">tolower</span><span class="p">(</span><span class="n">os</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_os</span><span class="p">()</span></code></pre></figure>
 
 <p>4. With our new environment loaded and knowledge of the computer’s OS, we’re ready to build platform agnostic variables that point to the most important shared directories in your group:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1">## Declare the root project and data directory:
-</span>
-<span class="n">show</span>  <span class="o">&lt;-</span> <span class="m">1</span>
-<span class="n">build</span> <span class="o">&lt;-</span> <span class="m">1</span>
+</span><span class="w">
+</span><span class="n">show</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="n">build</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w">
 
-<span class="k">if</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span> <span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span><span class="p">)</span><span class="o">==</span><span class="n">F</span><span class="p">){</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span> <span class="o">&lt;-</span> <span class="s2">"~/projects/"</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span> <span class="o">&lt;-</span> <span class="s2">"/your_data/"</span>
-  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span> <span class="o">&lt;-</span> <span class="s2">"C:/projects/"</span>
-	<span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span> <span class="o">&lt;-</span> <span class="s2">"D:/your_data/"</span>
-<span class="p">}</span></code></pre></figure>
+</span><span class="k">if</span><span class="p">(</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"windows"</span><span class="p">,</span><span class="w"> </span><span class="n">fdirs</span><span class="o">$</span><span class="n">computeros</span><span class="p">)</span><span class="o">==</span><span class="nb">F</span><span class="p">){</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"~/projects/"</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"/your_data/"</span><span class="w">
+  </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"C:/projects/"</span><span class="w">
+	</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"D:/your_data/"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
 <p>5. Depending on your setup you may have multiple project or data folders you want to declare. 
 To keep my life simple on my development machine, I try and make all data a sub-directory of “prjdta” 
@@ -273,15 +391,15 @@ in dozens of scripts. I just change the root data folder (in this example, “fd
 and everything else takes care of itself in my batch environment. Here’s some examples:</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Add some child objects to the fdirs environment:
-</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span>   <span class="o">&lt;-</span> <span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="p">,</span> <span class="s2">"data_quality/source/"</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">show</span><span class="o">==</span><span class="m">1</span> <span class="o">&amp;</span> <span class="n">interactive</span><span class="p">())</span> <span class="n">cat</span><span class="p">(</span><span class="s2">"\ndqrptsrc ="</span><span class="p">,</span> <span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="n">make</span><span class="o">==</span><span class="m">1</span><span class="p">)</span> <span class="n">system</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"mkdir -p "</span><span class="p">,</span> <span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">))</span>
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">prjdta</span><span class="p">,</span><span class="w"> </span><span class="s2">"data_quality/source/"</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">show</span><span class="o">==</span><span class="m">1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">interactive</span><span class="p">())</span><span class="w"> </span><span class="n">cat</span><span class="p">(</span><span class="s2">"\ndqrptsrc ="</span><span class="p">,</span><span class="w"> </span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="p">(</span><span class="n">make</span><span class="o">==</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="n">system</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="s2">"mkdir -p "</span><span class="p">,</span><span class="w"> </span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">))</span><span class="w">
 
-<span class="c1"># Define some colors for (say) GGPlot using your organization's color codes:
-</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_ppt_orange</span> <span class="o">&lt;-</span> <span class="s2">"#FF6122"</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_blue</span>    <span class="o">&lt;-</span> <span class="s2">"#30812E"</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_red</span>     <span class="o">&lt;-</span> <span class="s2">"#D0212E"</span>
-<span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_green</span>   <span class="o">&lt;-</span> <span class="s2">"#8EB126"</span></code></pre></figure>
+</span><span class="c1"># Define some colors for (say) GGPlot using your organization's color codes:
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_ppt_orange</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#FF6122"</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_blue</span><span class="w">    </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#30812E"</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_red</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#D0212E"</span><span class="w">
+</span><span class="n">fdirs</span><span class="o">$</span><span class="n">com_cr_green</span><span class="w">   </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"#8EB126"</span></code></pre></figure>
 
 <p>6. Notice how, in the lines above, I reference the “show” and “build” flags we declared near the top of the “file_dir_params.R” script.
 What these do, respectively, is print the file location of the variable to standard output and build the folder if it does not exist. This can be
@@ -290,20 +408,20 @@ useful but is not strictly necessary.</p>
 <p>7. Our last step is to attach the “fdirs” environment (or safely reload it if it’s already attached):</p>
 
 <figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Attach the new environment (and safely reload if already attached):
-</span><span class="k">while</span><span class="p">(</span><span class="s2">"fdirs"</span> <span class="o">%</span><span class="k">in</span><span class="o">%</span> <span class="n">search</span><span class="p">())</span>
-<span class="n">detach</span><span class="p">(</span><span class="s2">"fdirs"</span><span class="p">)</span>
-<span class="n">attach</span><span class="p">(</span><span class="n">fdirs</span><span class="p">)</span></code></pre></figure>
+</span><span class="k">while</span><span class="p">(</span><span class="s2">"fdirs"</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">search</span><span class="p">())</span><span class="w">
+</span><span class="n">detach</span><span class="p">(</span><span class="s2">"fdirs"</span><span class="p">)</span><span class="w">
+</span><span class="n">attach</span><span class="p">(</span><span class="n">fdirs</span><span class="p">)</span></code></pre></figure>
 
 <p><strong>Final Thoughts</strong></p>
 
 <p>Attaching the environment as we did in step 7 is a great time saver because your can omit the “fdirs$” prefix when you reference variables in your scripts. For example, to load a file in a data
 folder I now just write:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">dqrptsrc</span><span class="p">,</span> <span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">dqrptsrc</span><span class="p">,</span><span class="w"> </span><span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
 
 <p>As opposed to:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">,</span> <span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readRDS</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">fdirs</span><span class="o">$</span><span class="n">dqrptsrc</span><span class="p">,</span><span class="w"> </span><span class="s2">"somefile.Rds"</span><span class="p">))</span></code></pre></figure>
 
 <p>But, as with everything, there’s a draw back: you’ll want to make sure the names of your variables don’t overlap with functions
 or other items you declare in a script. For this reason I use expressions like “prjdta” rather than “data”, and I avoid overly concise
