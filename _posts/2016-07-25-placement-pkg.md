@@ -5,7 +5,7 @@ comments:  true
 published: true
 author: "Derek Darves"
 date: 2016-07-24 08:00:00
-categories: [R, 'Google Maps']
+categories: ['Book']
 output:
   html_document:
     mathjax:  default
@@ -58,11 +58,11 @@ print(coordset[ , 1:5])
 
 {% highlight text %}
 ##        lat        lng location_type
-## 1 40.74844  -73.98566       ROOFTOP
-## 2 37.42234 -122.08437       ROOFTOP
-##                                             formatted_address status
-## 1 Empire State Building, 350 5th Ave, New York, NY 10118, USA     OK
-## 2        1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA     OK
+## 1 40.74871  -73.98566       ROOFTOP
+## 2 37.42233 -122.08442       ROOFTOP
+##                                      formatted_address status
+## 1                 350 5th Ave, New York, NY 10118, USA     OK
+## 2 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA     OK
 {% endhighlight %}
 
 
@@ -109,7 +109,7 @@ with(howfar_kms,
 
 {% highlight text %}
 ## Cycling from NYC to 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA:
-## 5,345 km over 11 days 17 hours
+## 5,232 km over 11 days 13 hours
 {% endhighlight %}
 
 Address cleaning function:

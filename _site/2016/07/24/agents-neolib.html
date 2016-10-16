@@ -11,7 +11,7 @@
 
   <title>
     
-      Rsurveygizmo: An R package for interacting with the Survey Gizmo API &middot; R from Stata
+      Agents of Neoliberal Globalization Now in Print! &middot; R from Stata
     
   </title>
 
@@ -140,39 +140,16 @@
 
     <div class="content container">
       <div class="post">
-  <h1 class="post-title">Rsurveygizmo: An R package for interacting with the Survey Gizmo API</h1>
-  <span class="post-date">06 Jun 2016</span>
-  <p>Several years ago our team began using SurveyGizmo for our online surveys (and, actually, a bunch of other projects as well, from polls to data entry templates). At the time, SurveyGizmo provided 
-a nice balance between cost and customization when compared to similar products from, e.g., Qualtrics and SurveyMonkey.
-Over the years SurveyGizmo has greatly expanded the kinds of user customization and tweaking 
-that is possible, particularly <a href="https://apihelp.surveygizmo.com/help">in the area of API calls</a>.
-Because we mostly work in R, I decided to write a package that accesses the 
-SurveyGizmo API directly so that survey and email campaign data can 
-be pulled directly within a project script (as opposed to manually downloading the data from the webpage).</p>
+  <h1 class="post-title">Agents of Neoliberal Globalization Now in Print!</h1>
+  <span class="post-date">24 Jul 2016</span>
+  <p>After many years of hard work I’m thrilled to announce that the collaborative research project  Michael Dreiling and I began in 2000 has been published with <a href="http://www.cambridge.org/pw/academic/subjects/sociology/political-sociology/agents-neoliberal-globalization-corporate-networks-state-structures-and-trade-policy?format=HB">Cambridge University Press!</a> Our book, <em>Agents of Neoliberal Globalization</em> can be purchased directly from Amazon, or with a discount using the <a href="http://derekyves.github.io/images/Agents_Neoliberal_Globalization_Flyer.pdf">promotional code in this flyer</a>. Many thanks to the editors, reviewers, and friends who helped improve this book over many years and many drafts. Our thanks, also, to Athena Llewellyn, Creative Director of the <a href="http://baratfoundation.org">Barat Foundation</a>, for creating the excellent cover art!</p>
 
-<p>Some usage examples for this package follow. To really test it out you will need to supply
-your private SurveyGizmo API key and a valid numeric survey id. There are many more function options 
-outlined in the package help files than are presented below for those who’d like to learn more.</p>
+<p>At a time when trade policies like the TPP have emerged as a topic of major national and global interest, we hope that our work will inform public debate about the drivers of globalization and, looking ahead, the kinds of economic policies that will best support a more sustainable and peaceful future. The publisher’s summary follows:</p>
 
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="c1"># Download a "regular" survey with no email campaign data,
-# keeping only complete responses:
-</span><span class="n">api</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="w">
-</span><span class="n">a_survey</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">completes_only</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span><span class="w"> 
+<hr />
 
-</span><span class="c1"># Download all email campaign data for a particular survey:
-</span><span class="n">a_campaign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg_campaign</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">)</span><span class="w"> 
-
-</span><span class="c1"># Combine the previous steps in one function:
-# 1. download email campaign 
-# 2. merge it, where possible, with a survey response 
-</span><span class="n">a_survey_with_campaign</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pullsg</span><span class="p">(</span><span class="n">your_survey_id_here</span><span class="p">,</span><span class="w"> </span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">mergecampaign</span><span class="o">=</span><span class="nb">T</span><span class="p">)</span></code></pre></figure>
-
-<p>If you’d like to give the package a spin you can <a href="https://github.com/DerekYves/rsurveygizmo">visit the Github repository</a> or install directly within R:</p>
-
-<figure class="highlight"><pre><code class="language-r" data-lang="r"><span class="n">library</span><span class="p">(</span><span class="n">devtools</span><span class="p">)</span><span class="w">
-</span><span class="n">install_github</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"DerekYves/rsurveygizmo"</span><span class="p">)</span></code></pre></figure>
-
-<p>I hope this package is helpful to somebody, and feel free to drop me an email or post to the repository if you have any questions or suggestions for improvement! Many, many thanks to <a href="http://www.arilamstein.com/">Ari Lamstein</a> for teahing me the ropes of R package development and the wonders of Roxygen.</p>
+<p><em>Depictions of globalization commonly recite a story of a market unleashed, bringing Big Macs and iPhones to all corners of the world. Human society appears as a passive observer to a busy revolution of an invisible global market, paradoxically unfolding by its own energy. Sometimes, this market is thought to be unleashed by politicians working on the surface of an autonomous state. This book rejects both perspectives and provides an analytically rich alternative to conventional approaches to globalization. By the 1980s, an enduring corporate coalition advanced in nearly synonymous terms free trade, tax cuts, and deregulation. Highly networked corporate leaders and state officials worked in concert to produce the trade policy framework for neoliberal globalization. Marshaling original network data and a historical narrative, this book shows that the globalizing corporate titans of the late 1960s aligned with economic conservatives to set into motion this vision of a global free market.</em></p>
+<hr />
 
 
 </div>
@@ -183,8 +160,8 @@ outlined in the package help files than are presented below for those who’d li
     
       <li>
         <h3>
-          <a href="/2016/07/24/agents-neolib.html" class = "post-title">
-            Agents of Neoliberal Globalization Now in Print!
+          <a href="/2016/07/24/placement-pkg.html" class = "post-title">
+            Placement: An R package to Access the Google Maps API
             <small>24 Jul 2016</small>
           </a>
         </h3>
@@ -192,9 +169,9 @@ outlined in the package help files than are presented below for those who’d li
     
       <li>
         <h3>
-          <a href="/2016/07/24/placement-pkg.html" class = "post-title">
-            Placement: An R package to Access the Google Maps API
-            <small>24 Jul 2016</small>
+          <a href="/2016/06/06/rsurvey-gizmo.html" class = "post-title">
+            Rsurveygizmo: An R package for interacting with the Survey Gizmo API
+            <small>06 Jun 2016</small>
           </a>
         </h3>
       </li>

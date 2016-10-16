@@ -13,12 +13,7 @@ output:
 ---
 	
 	
-```{r include = FALSE}
 
-library(knitr)
-library(servr)
-
-```
 
 After many years of hard work I'm thrilled to announce that the collaborative research project  Michael Dreiling and I began in 2000 has been published with [Cambridge University Press!](http://www.cambridge.org/pw/academic/subjects/sociology/political-sociology/agents-neoliberal-globalization-corporate-networks-state-structures-and-trade-policy?format=HB) Our book, *Agents of Neoliberal Globalization* can be purchased directly from Amazon, or with a discount using the [promotional code in this flyer](http://derekyves.github.io/images/Agents_Neoliberal_Globalization_Flyer.pdf). Many thanks to the editors, reviewers, and friends who helped improve this book over many years and many drafts. Our thanks, also, to Athena Llewellyn, Creative Director of the [Barat Foundation](http://baratfoundation.org), for creating the excellent cover art! 
 

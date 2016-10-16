@@ -295,24 +295,6 @@ and more.  Happy blogging!
   <h2>Related Posts</h2>
   <ul class="related-posts">
     
-      <li>
-        <h3>
-          <a href="/2016/06/06/rsurvey-gizmo.html" class = "post-title">
-            Rsurveygizmo: An R package for interacting with the Survey Gizmo API
-            <small>06 Jun 2016</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
-          <a href="/2016/05/10/codeshare.html" class = "post-title">
-            Sharing R code in a workgroup of Mac/Windows/Linux users
-            <small>10 May 2016</small>
-          </a>
-        </h3>
-      </li>
-    
   </ul>
 </div>
 
