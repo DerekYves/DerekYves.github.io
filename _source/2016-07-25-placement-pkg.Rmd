@@ -5,7 +5,7 @@ comments:  true
 published: true
 author: "Derek Darves"
 date: 2016-07-24 08:00:00
-categories: [R, 'Google Maps']
+categories: ['Book']
 output:
   html_document:
     mathjax:  default
